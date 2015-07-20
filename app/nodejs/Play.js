@@ -5,24 +5,36 @@ var readSyncLine = require('readline-sync');
 
 var Play = function(data){
     this.source = data;
+    this.dup_array = JSON.parse(JSON.stringify(this.source));
     this.matches = 0;
 }
 
+Play.prototype.fillHiddenValue = function()
+{
+    var me = this;
+    me.dup_array.forEach(function(currentValueX,i ) {
+        me.dup_array[i].forEach(function(currentValueY,j){
+            me.dup_array[i][j]='X';
+        });
+    })
+}
 
 Play.prototype.play = function(){
+    this.fillHiddenValue();
     while(!this.isFinishGame()){
         var read = this.readLines();
         var result = this.match(read[0],read[1],read[2],read[3]);
         if (result.isMatch){
             this.matches++;
-            console.log(result.message +'\n'+ this.showStatus())
+            this.dup_array[read[0]][read[1]] = this.source[read[0]][read[1]];
+            this.dup_array[read[2]][read[3]] = this.source[read[2]][read[3]];
             this.source[read[0]][read[1]] = -1;
             this.source[read[2]][read[3]] = -1;
+            console.log(result.message +'\n'+ this.showStatus())
         }
         else {
             console.log(result.message + '\n'+ this.showStatus());
         }
-
     }
     if (this.isFinishGame()) {
         console.log("You win the game");
@@ -31,15 +43,15 @@ Play.prototype.play = function(){
 
 Play.prototype.showStatus = function() {
     var showMatrix='';
-    for (var i = 0 ; i < this.source.length ; i++) {
+    for (var i = 0 ; i < this.dup_array.length ; i++) {
         var matrixEntireRow = '[';
-        for(var j = 0 ; j < this.source[0].length ; j++) {
-            if (j +1 == this.source[0].length) {
-                matrixEntireRow += this.source[i][j] + ']';
-            } else {
-                matrixEntireRow += this.source[i][j] + ' ';
-            }
+        for(var j = 0 ; j < this.dup_array[0].length ; j++) {
 
+            if (j +1 == this.dup_array[0].length) {
+                matrixEntireRow += this.dup_array[i][j] +  ']';
+            } else {
+                matrixEntireRow += this.dup_array[i][j] + ' ';
+            }
         }
         showMatrix+= matrixEntireRow + '\n';
     }
