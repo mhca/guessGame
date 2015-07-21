@@ -2,13 +2,12 @@
  * Created by maida sanchez on 14/07/2015.
  */
 
-
-var Game= function(columnLenght, rowLength) {
+var Game= function(columnLength, rowLength) {
     this.data = [];
-    this.columns =columnLenght;
+    this.columns = columnLength;
     this.rows = rowLength;
     this.guessNumber = [];
-}
+};
 
 Game.prototype.createData = function() {
     for(var row=0; row < this.rows; row++) {
@@ -31,7 +30,6 @@ Game.prototype.generateRandomPosition = function() {
     var max = this.rows-1;
     var min = 0;
     var test = Math.floor(Math.random() * (max - min + 1)) + min;
-    //console.log(test);
     return test;
 };
 
@@ -42,11 +40,12 @@ Game.prototype.generateGuessNumber = function() {
         //console.log(this.guessNumber[i]);
     }
 };
-Game.prototype.isFilledValue =  function(x,y) {
+
+Game.prototype.isFilledValue = function(x,y) {
     return this.data[x][y] != -1;
 };
 
-Game.prototype.fillData =  function(x,y) {
+Game.prototype.fillData = function(x,y) {
     var arv;
     for (var i = 0 ; i < this.guessNumber.length ; i++) {
         arv = 0;
@@ -59,13 +58,6 @@ Game.prototype.fillData =  function(x,y) {
             }
         }
     }
-}
-module.exports= Game;
+};
 
-
-
-
-
-
-
-
+module.exports = Game;

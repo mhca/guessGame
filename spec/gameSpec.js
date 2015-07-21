@@ -11,7 +11,7 @@ describe ('Game', function(){
         game = null;
     });
 
-    describe('Filling values to the Matrix', function(){
+    describe('Create', function(){
         it ('should add all data to the Matrix', function (){
             game.createData();
             var actualResults = true;
@@ -45,6 +45,22 @@ describe ('Game', function(){
             for (var i = 1 ; i <= totalRandom; i++) {
                 expectedResults += i+i;
             }
+            expect(actualResults).toBe(expectedResults);
+        });
+
+        it ('should add all data to the Matrix', function (){
+            game.createData();
+            var actualResults = true;
+            for (var i = 0 ; i < game.data.length; i ++) {
+                if (!actualResults) break;
+                for (var j = 0 ; j < game.data[0].length;j++) {
+                    if ( typeof game.data[i][j] == 'undefined') {
+                        actualResults = false;
+                    }
+                }
+            }
+
+            var expectedResults = true;
             expect(actualResults).toBe(expectedResults);
         });
     });
